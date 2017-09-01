@@ -1,6 +1,7 @@
 # ansible-role-cryptpad
 
 [![Build Status](https://travis-ci.org/systemli/ansible-role-cryptpad.svg?branch=master)](https://travis-ci.org/systemli/ansible-role-cryptpad) [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-cryptpad-blue.svg)](https://galaxy.ansible.com/systemli/cryptpad/)
+
 Install and maintain an [Cryptpad](https://cryptpad.fr/) service.
 
 This role will setup an cryptpad service running on 0.0.0.0:3000.
