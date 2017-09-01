@@ -1,0 +1,5 @@
+check process cryptpad
+    matching "cryptpad/server.js"
+    start program = "/usr/sbin/service cryptpad start" with timeout 60 seconds
+    stop program  = "/usr/sbin/service cryptpad stop"
+    group server

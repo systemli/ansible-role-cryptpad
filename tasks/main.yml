@@ -1,0 +1,114 @@
+---
+
+- name: check if cryptpad is already installed
+  stat:
+    path: "{{ cryptpad_path }}/config.js"
+  register: cryptpad_installed
+
+- name: ensure cryptpad user is present
+  user:
+    name: "{{ cryptpad_user }}"
+    home: "{{ cryptpad_home }}"
+    shell: "/bin/bash"
+    state: present
+
+- name: ensure https-apt-transports package is present
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+  with_items:
+    - apt-transport-https
+
+- name: ensure nodejs key is present
+  apt_key:
+    url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
+    state: present
+
+- name: ensure nodejs sources are present
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+    filename: 'nodesource'
+  with_items:
+    - "deb https://deb.nodesource.com/node_6.x jessie main"
+    - "deb-src https://deb.nodesource.com/node_6.x jessie main"
+
+- name: ensure required packages are installed
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+  with_items: "{{ cryptpad_required_packages }}"
+
+- name: install bower via npm
+  command: npm install bower -g
+  when: cryptpad_installed.stat.exists == false
+
+- name: ensure cryptpad is latest
+  git:
+    repo: "{{ cryptpad_repository }}"
+    dest: "{{ cryptpad_path }}"
+    version: "{{ cryptpad_repository_version}}"
+    key_file: "{{ cryptpad_repository_key_file}}"
+  become_user: "{{ cryptpad_user }}"
+  become: True
+  when: cryptpad_installed.stat.exists == false or cryptpad_update
+
+- name: install cryptpad dependencies via bower
+  command: bower install
+  args:
+    chdir: "{{ cryptpad_path }}"
+  become: True
+  become_user: "{{ cryptpad_user }}"
+  when: cryptpad_installed.stat.exists == false
+
+- name: install cryptpad via npm
+  command: npm install
+  args:
+    chdir: "{{ cryptpad_path }}"
+  become: True
+  become_user: "{{ cryptpad_user }}"
+  when: cryptpad_installed.stat.exists == false
+
+- name: ensure cryptpad configuration is latest
+  template:
+    src: config.js.j2
+    dest: "{{ cryptpad_path }}/config.js"
+    owner: "{{ cryptpad_user }}"
+    group: "{{ cryptpad_user }}"
+    mode: 0755
+  notify: restart cryptpad
+
+- name: update cryptpad (npm)
+  command: npm update
+  args:
+    chdir: "{{ cryptpad_path }}"
+  when: cryptpad_installed.stat.exists and cryptpad_update
+
+- name: update cryptpad (bower)
+  command: bower update
+  args:
+    chdir: "{{ cryptpad_path }}"
+  when: cryptpad_installed.stat.exists and cryptpad_update
+
+- name: ensure cryptpad systemd script is latest
+  template:
+    src: cryptpad.service.j2
+    dest: /etc/systemd/system/cryptpad.service
+    owner: root
+    group: root
+    mode: 0755
+  notify: reload systemd
+  when: (ansible_distribution == 'Debian')
+
+- name: ensure cryptpad service is started
+  service:
+    name: cryptpad
+    state: started
+
+- name: ensure cryptpad will start after system is booted
+  service:
+    name: cryptpad
+    enabled: yes
+
+- include: monit.yml
+  when: cryptpad_monit_enabled

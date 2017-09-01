@@ -1,0 +1,4 @@
+---
+# Example dependency
+#- src: https://github.com/jnv/ansible-role-debian-backports.git
+#  name: jnv.debian-backports
