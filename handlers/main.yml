@@ -1,3 +1,4 @@
+---
 - name: restart cryptpad
   service:
     name: cryptpad
@@ -14,5 +15,5 @@
     state: reloaded
 
 - name: reload systemd
-  become: yes
+  become: "yes"
   command: systemctl daemon-reload

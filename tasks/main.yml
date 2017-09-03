@@ -50,14 +50,14 @@
     version: "{{ cryptpad_repository_version}}"
     key_file: "{{ cryptpad_repository_key_file}}"
   become_user: "{{ cryptpad_user }}"
-  become: True
+  become: "True"
   when: cryptpad_installed.stat.exists == false or cryptpad_update
 
 - name: install cryptpad dependencies via bower
   command: bower install
   args:
     chdir: "{{ cryptpad_path }}"
-  become: True
+  become: "True"
   become_user: "{{ cryptpad_user }}"
   when: cryptpad_installed.stat.exists == false
 
@@ -65,7 +65,7 @@
   command: npm install
   args:
     chdir: "{{ cryptpad_path }}"
-  become: True
+  become: "True"
   become_user: "{{ cryptpad_user }}"
   when: cryptpad_installed.stat.exists == false
 
@@ -88,6 +88,8 @@
   command: bower update
   args:
     chdir: "{{ cryptpad_path }}"
+  become: "True"
+  become_user: "{{ cryptpad_user }}"
   when: cryptpad_installed.stat.exists and cryptpad_update
 
 - name: ensure cryptpad systemd script is latest
@@ -108,7 +110,7 @@
 - name: ensure cryptpad will start after system is booted
   service:
     name: cryptpad
-    enabled: yes
+    enabled: "yes"
 
 - include: monit.yml
   when: cryptpad_monit_enabled
