@@ -12,7 +12,7 @@ You need to have a running webserver with a vhost pointing to your cryptpad inst
 
 Defaults:
 
-    # Playbook variables
+    ## Role variables
     cryptpad_required_packages:
       - nodejs
       - git
@@ -26,11 +26,14 @@ Defaults:
     cryptpad_path: "{{ cryptpad_home }}/cryptpad"
     cryptpad_update: False
     
-    # template/config.js variables
+    # enable monit service monitoring
+    cryptpad_monit_enabled: False
+    
+    ## template/config.js variables
     cryptpad_http_address: "::"
-    cryptpad_http_headers_enabled: True
-    cryptpad_content_security_enabled: True
-    cryptpad_pad_content_security_enabled: True
+    cryptpad_http_headers_enabled: "True"
+    cryptpad_content_security_enabled: "True"
+    cryptpad_pad_content_security_enabled: "True"
     cryptpad_http_port: 3000
     cryptpad_http_safe_port: 3001
     cryptpad_websocket_path: "/cryptpad_websocket"
@@ -60,9 +63,6 @@ Defaults:
     cryptpad_suppress_rpc_errors: "false"
     cryptpad_enable_uploads: "true"
     cryptpad_max_upload_size: "20 * 1024 * 1024"
-    
-    # enable monit service monitoring
-    cryptpad_monit_enabled: False
 
 ## Download
 
