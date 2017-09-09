@@ -7,14 +7,25 @@ lint:
   name: yamllint
   enabled: False
 platforms:
-  - name: cryptpad-debian
-    image: maint/debian-systemd
-    image_version: latest
-    privileged: "True"
+  - name: debian-stretch
+    image: geerlingguy/docker-debian9-ansible
+    privileged: True
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    command: /lib/systemd/systemd
+  - name: debian-jessie
+    image: geerlingguy/docker-debian8-ansible
+    privileged: True
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    command: /lib/systemd/systemd
 provisioner:
   name: ansible
+  options:
+    skip-tags: molecule_test_skip
   lint:
     name: ansible-lint
+    enabled: False
 scenario:
   name: default
 verifier:
