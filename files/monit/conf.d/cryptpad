@@ -1,4 +1,4 @@
-check process cryptpad
+check process cryptpad_service
     matching "cryptpad/server.js"
     start program = "/usr/sbin/service cryptpad start" with timeout 60 seconds
     stop program  = "/usr/sbin/service cryptpad stop"
