@@ -66,7 +66,6 @@ Defaults:
 
 ## Download
 
-
 Download latest release with `ansible-galaxy`
 
 	ansible-galaxy install systemli.cryptpad
