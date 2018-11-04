@@ -2,6 +2,7 @@
 Description=CryptPad service
 
 [Service]
+User={{ cryptpad_user }}
 ExecStart=/usr/bin/node {{ cryptpad_path }}/server.js
 WorkingDirectory={{ cryptpad_path }}
 Restart=always
