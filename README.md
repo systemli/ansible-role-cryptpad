@@ -14,6 +14,7 @@ Defaults:
 
     ## Role variables
     cryptpad_required_packages:
+      - nodejs
       - git
     
     cryptpad_repository: "https://github.com/xwiki-labs/cryptpad.git"

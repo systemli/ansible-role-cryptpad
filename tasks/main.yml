@@ -12,11 +12,26 @@
     shell: "/bin/bash"
     state: present
 
-- name: ensure nodejs is installed (from backports on stretch)
+- name: ensure https-apt-transports package is present
   apt:
-    pkg: nodejs
-    default_release: "{{ 'stretch-backports' if ansible_distribution_release == 'stretch' else omit }}"
+    pkg: "{{ item }}"
+    state: installed
+  with_items:
+    - apt-transport-https
+
+- name: ensure nodejs key is present
+  apt_key:
+    url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
     state: present
+
+- name: ensure nodejs sources are present
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+    filename: 'nodesource'
+  with_items:
+    - "deb https://deb.nodesource.com/node_6.x {{ ansible_distribution_release }} main"
+    - "deb-src https://deb.nodesource.com/node_6.x {{ ansible_distribution_release }} main"
 
 - name: ensure required packages are installed
   apt:

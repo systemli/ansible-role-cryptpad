@@ -13,5 +13,4 @@ galaxy_info:
     - web
   notifications:
     webhooks: https://galaxy.ansible.com/api/v1/notifications/
-dependencies:
-  - jnv.debian-backports
+dependencies: []
