@@ -19,6 +19,14 @@
   with_items:
     - apt-transport-https
 
+- name: ensure apt_preferences include file for deb.nodesource.com is present
+  copy:
+    src: apt/preferences.d/deb.nodesource.com.pref
+    dest: /etc/apt/preferences.d/deb.nodesource.com.pref
+    mode: 0644
+    owner: root
+    group: root
+
 - name: ensure nodejs key is present
   apt_key:
     url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
