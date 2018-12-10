@@ -15,7 +15,7 @@
 - name: ensure https-apt-transports package is present
   apt:
     pkg: "{{ item }}"
-    state: installed
+    state: present
   with_items:
     - apt-transport-https
 
@@ -36,7 +36,7 @@
 - name: ensure required packages are installed
   apt:
     pkg: "{{ item }}"
-    state: installed
+    state: present
   with_items: "{{ cryptpad_required_packages }}"
 
 - name: install bower via npm
