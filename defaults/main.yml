@@ -3,6 +3,8 @@
 cryptpad_required_packages:
   - nodejs
   - git
+  - make
+  - g++
 
 cryptpad_repository: "https://github.com/xwiki-labs/cryptpad.git"
 cryptpad_repository_key_file: ""
@@ -50,4 +52,3 @@ cryptpad_rpc: "./rpc.js"
 cryptpad_suppress_rpc_errors: "false"
 cryptpad_enable_uploads: "true"
 cryptpad_max_upload_size: "20 * 1024 * 1024"
-
