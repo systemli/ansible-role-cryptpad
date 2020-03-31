@@ -62,8 +62,8 @@ module.exports = {
     padContentSecurity: [
         "default-src 'none'",
         "style-src 'unsafe-inline' 'self'" + domain,
-        // Unsafe inline, unsafe-eval are needed for ckeditor :(
-        "script-src 'self' 'unsafe-eval' 'unsafe-inline'" + domain,
+        
+        "script-src 'self'" + domain,
         "font-src 'self'" + domain,
 
         /*  See above under 'contentSecurity' as to how these values should be
