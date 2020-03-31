@@ -38,8 +38,8 @@
     state: present
     filename: 'nodesource'
   with_items:
-    - "deb https://deb.nodesource.com/node_6.x {{ ansible_distribution_release }} main"
-    - "deb-src https://deb.nodesource.com/node_6.x {{ ansible_distribution_release }} main"
+    - "deb https://deb.nodesource.com/node_12.x {{ ansible_distribution_release }} main"
+    - "deb-src https://deb.nodesource.com/node_12.x {{ ansible_distribution_release }} main"
 
 - name: ensure required packages are installed
   apt:
